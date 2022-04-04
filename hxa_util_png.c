@@ -99,12 +99,38 @@ void hxa_load_png(HXAFile *file, char *file_name)
 	union {char text[5]; unsigned int type;}type;
 	size_t size, pos, chunk_length, bitmap_size;
 	unsigned char *data, *unprocessed_data, *image_data;
+
+	{
+		unsigned int allocation;
+		char *data;
+		FILE *f;
+
+		f = fopen(file_name, "rb");
+		if(f == NULL)
+		{
+			printf("HxA Error: Could not open file %d\n", file_name);
+			return;
+		}
+		fseek(f, 0, SEEK_END);
+		allocation = ftell(f);
+		rewind(f);
+		data = malloc(allocation + 1);
+		memset(data, 0, allocation + 1);
+		fread(data, 1, allocation, f);
+		ftell(f);
+		fclose(f);
+		data[allocation] = 0;
+	}
+
+	/*
 	data = f_text_load(file_name, &size);
 	if(data == NULL)
 	{
 		printf("HxA Error: Could not open file %d\n", file_name);
 		return;
 	}
+	*/
+
 	type.text[4] = 0;
 	chunk_length = data[11] + data[10] * 256 + data[9] * 256 * 256 + data[8] * 256 * 256 * 256;
 	x = data[19] + data[18] * 256 + data[17] * 256 * 256 + data[16] * 256 * 256 * 256;
@@ -125,7 +151,7 @@ void hxa_load_png(HXAFile *file, char *file_name)
 	//	printf("chunk_length %u - %s %u\n", chunk_length, type.text, type.type);
 		if(type.type == 1413563465)
 		{
-			f_print_raw(data, pos + 8);
+			// f_print_raw(data, pos + 8);
 			exit(0);
 			for(i = 0; i < chunk_length; i++)
 				data[packed_size++] = data[pos + 8 + i];

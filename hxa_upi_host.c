@@ -69,7 +69,7 @@ void hxa_upi_host_load_library_internal(char *path)
 #else
 		printf("HxA UPI ERROR: library %s not found.\n", path);
 #endif
-		return NULL;
+		return;
 	}
 #ifdef WIN32
 	hxa_upi_plugin_library_initialize = (char *(*)(void))GetProcAddress(hxa_upi_host_temp_loaded_library, "hxa_upi_plugin_library_initialize");
@@ -80,7 +80,7 @@ void hxa_upi_host_load_library_internal(char *path)
 	{
 		printf("HxA UPI ERROR: imagine_lib_main not found in %s.\n", path);
 		hxa_upi_internal_lib_unload(hxa_upi_host_temp_loaded_library);
-		return NULL;
+		return;
 	}
 	pre_count = hxa_upi_host_temp_loaded_plugin_count;
 	hxa_upi_plugin_library_initialize(hxa_upi_host_register_func);

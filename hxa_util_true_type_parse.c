@@ -753,11 +753,17 @@ int hxa_util_true_type_parse_loader(HxAFont *font, uint8 *data)
 		printf("\tlength %u\n", tables[i].length);
 */	}
 	
-	for(cmap = 0; cmap < number_of_tables && !f_text_compare(tables[cmap].tag, "cmap"); cmap++);
-	for(maxp = 0; maxp < number_of_tables && !f_text_compare(tables[maxp].tag, "maxp"); maxp++);
-	for(head = 0; head < number_of_tables && !f_text_compare(tables[head].tag, "head"); head++);
-	for(loca = 0; loca < number_of_tables && !f_text_compare(tables[loca].tag, "loca"); loca++);
-	for(glyf = 0; glyf < number_of_tables && !f_text_compare(tables[glyf].tag, "glyf"); glyf++);
+	for(cmap = 0; cmap < number_of_tables && strcmp(tables[cmap].tag, "cmap") != 0; cmap++);
+	for(maxp = 0; maxp < number_of_tables && strcmp(tables[maxp].tag, "maxp") != 0; maxp++);
+	for(head = 0; head < number_of_tables && strcmp(tables[head].tag, "head") != 0; head++);
+	for(loca = 0; loca < number_of_tables && strcmp(tables[loca].tag, "loca") != 0; loca++);
+	for(glyf = 0; glyf < number_of_tables && strcmp(tables[glyf].tag, "glyf") != 0; glyf++);
+
+	// for(cmap = 0; cmap < number_of_tables && !f_text_compare(tables[cmap].tag, "cmap"); cmap++);
+	// for(maxp = 0; maxp < number_of_tables && !f_text_compare(tables[maxp].tag, "maxp"); maxp++);
+	// for(head = 0; head < number_of_tables && !f_text_compare(tables[head].tag, "head"); head++);
+	// for(loca = 0; loca < number_of_tables && !f_text_compare(tables[loca].tag, "loca"); loca++);
+	// for(glyf = 0; glyf < number_of_tables && !f_text_compare(tables[glyf].tag, "glyf"); glyf++);
 
 	if(cmap >= number_of_tables ||
 		maxp >= number_of_tables || 
